@@ -34,4 +34,17 @@ FactoryBot.define do
     merchant
     invoice
   end
+
+  factory :bulk_discount do
+    name {Faker::Commerce.product_name}
+    percentage {rand(5..30)}
+    quantity_threshold {rand(5..20)}
+    merchant
+  end
+
+  factory :bulk_discount_item do
+    bulk_discount
+    item
+  end
+
 end

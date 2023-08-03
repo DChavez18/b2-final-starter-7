@@ -140,5 +140,9 @@ RSpec.describe "merchant dashboard" do
 
       expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
     end
+
+    it "displays all my bulk discounts with their percentages and thresholds" do
+
+    end
   end
 end

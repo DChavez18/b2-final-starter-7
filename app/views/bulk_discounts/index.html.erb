@@ -3,3 +3,16 @@
   <div class="row">
     <p class='col-12'>My Bulk Discounts</p>
   </div>
+
+  <div class="row">
+  <div class="col-12">
+    <h2>Bulk Discounts</h2>
+    <ul>
+      <% @bulk_discounts.each do |bulk_discount| %>
+        <li>
+          <%= link_to "#{bulk_discount.name} - #{bulk_discount.percentage}% off #{bulk_discount.quantity} items", merchant_bulk_discount_path(@merchant1, bulk_discount) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
