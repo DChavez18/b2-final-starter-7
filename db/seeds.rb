@@ -1,10 +1,10 @@
+BulkDiscount.destroy_all
 InvoiceItem.destroy_all
 Item.destroy_all
 Transaction.destroy_all
 Invoice.destroy_all
 Customer.destroy_all
 Merchant.destroy_all
-BulkDiscount.destroy_all
 
 
 # This file should contain all the record creation needed to seed the database with its default values.
