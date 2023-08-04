@@ -165,12 +165,16 @@ RSpec.describe "merchant dashboard" do
 
   it "shows each bulk discount as a link to that discounts show page" do
       click_link "Bulk Discounts"
-
+      
       within("#bulk-discounts-section") do
       expect(page).to have_link(@bulk_discount1.name, href: merchant_bulk_discount_path(@merchant1, @bulk_discount1))
       expect(page).to have_link(@bulk_discount2.name, href: merchant_bulk_discount_path(@merchant1, @bulk_discount2))
       expect(page).to have_link(@bulk_discount3.name, href: merchant_bulk_discount_path(@merchant1, @bulk_discount3))
     end
+
+    click_link @bulk_discount1.name
+  
+    expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @bulk_discount1))
   end
 end
 end
