@@ -12,7 +12,7 @@
       <% @bulk_discounts.each do |bulk_discount| %>
         <div class="bulk-discount">
           <%= link_to "#{bulk_discount.name} - #{bulk_discount.percentage_discount}% off #{bulk_discount.quantity_threshold} items", merchant_bulk_discount_path(@merchant, bulk_discount) %>
-          <%= link_to "Delete", merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete %>
+          <%= button_to "Delete", merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete, data: { confirm: "Are you sure you want to delete this bulk discount?" }, class: "btn btn-danger" %>
         </div>
       <% end %>
     </ul>

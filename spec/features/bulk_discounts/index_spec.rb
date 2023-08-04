@@ -102,7 +102,7 @@ RSpec.describe "bulk discounts index", type: :feature do
       
       page.all(".bulk-discount").each do |bulk_discount_element|
         within(bulk_discount_element) do
-          expect(page).to have_link("Delete")
+          expect(page).to have_button("Delete")
         end
       end
     end
@@ -114,7 +114,7 @@ RSpec.describe "bulk discounts index", type: :feature do
       expect(page).to have_content(@bulk_discount2.name)
       expect(page).to have_content(@bulk_discount3.name)
 
-      first('.bulk-discount').click_link("Delete")
+      first('.bulk-discount').click_button("Delete")
 
       expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
       expect(page).to_not have_content(@bulk_discount1.name)
