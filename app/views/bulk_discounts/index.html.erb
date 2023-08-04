@@ -6,11 +6,12 @@
 
   <div class="row">
   <div class="col-12">
+  <div id="bulk-discounts-section">
     <h2>Bulk Discounts</h2>
     <ul>
       <% @bulk_discounts.each do |bulk_discount| %>
         <li>
-          <%= link_to "#{bulk_discount.name} - #{bulk_discount.percentage}% off #{bulk_discount.quantity} items", merchant_bulk_discount_path(@merchant1, bulk_discount) %>
+          <%= link_to "#{bulk_discount.name} - #{bulk_discount.percentage_discount}% off #{bulk_discount.quantity_threshold} items", merchant_bulk_discount_path(@merchant, bulk_discount) %>
         </li>
       <% end %>
     </ul>

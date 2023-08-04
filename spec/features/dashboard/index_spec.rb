@@ -150,15 +150,15 @@ RSpec.describe "merchant dashboard" do
 
       within("#bulk-discounts-section") do
         expect(page).to have_content(@bulk_discount1.name)
-        expect(page).to have_content(@bulk_discount1.percentage)
+        expect(page).to have_content(@bulk_discount1.percentage_discount)
         expect(page).to have_content(@bulk_discount1.quantity_threshold)
 
         expect(page).to have_content(@bulk_discount2.name)
-        expect(page).to have_content(@bulk_discount2.percentage)
+        expect(page).to have_content(@bulk_discount2.percentage_discount)
         expect(page).to have_content(@bulk_discount2.quantity_threshold)
 
         expect(page).to have_content(@bulk_discount3.name)
-        expect(page).to have_content(@bulk_discount3.percentage)
+        expect(page).to have_content(@bulk_discount3.percentage_discount)
         expect(page).to have_content(@bulk_discount3.quantity_threshold)
       end
     end
