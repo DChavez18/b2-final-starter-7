@@ -58,8 +58,34 @@ RSpec.describe "bulk discounts index", type: :feature do
   describe "when i visit my bulk discounts index" do
     it "displays a link to create a new discount" do
       visit merchant_bulk_discounts_path(@merchant1)
-      save_and_open_page
+      
       expect(page).to have_link("Create New Discount")
+    end
+    
+    it "takes me to a new page when the link is clicked and I see a form to add a new bulk discount" do
+      visit merchant_bulk_discounts_path(@merchant1)
+
+      click_link "Create New Discount"
+
+      expect(current_path).to eq(new_merchant_bulk_discount_path(@merchant1))
+      expect(page).to have_field("bulk_discount_name")
+      expect(page).to have_field("bulk_discount_percentage_discount")
+      expect(page).to have_field("bulk_discount_quantity_threshold")
+      expect(page).to have_button("Create Bulk Discount")
+    end
+
+    it "redirects me back to bulk discount index when i click the create new discount button after I fill in the form" do
+      visit new_merchant_bulk_discount_path(@merchant1)
+
+      fill_in "Name", with: "Summer Sale"
+      fill_in "Percentage discount", with: 20
+      fill_in "Quantity threshold", with: 10
+
+      click_button "Create Bulk Discount"
+
+      expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
+      expect(page).to have_content("Summer Sale - 20% off 10 items")
+
     end
   end
 end
