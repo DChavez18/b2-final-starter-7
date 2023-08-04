@@ -12,16 +12,18 @@
   </head>
 
   <body>
-    <div class="top-container">
-      <h1>Little Esty Shop - Final</h1>
-      <div class="container">
-        <% flash.each do |type, notice| %>
-          <h5 class="text-info"><b><%= notice %></b></h5>
-        <% end %>
-      </div>
-      <div class="container">
-        <%= yield %>
-      </div>
+  <div class="top-container">
+    <h1>Little Esty Shop - Final</h1>
+    <div class="container">
+      <% flash.each do |type, message| %>
+        <div class="alert alert-<%= type %>">
+          <%= message %>
+        </div>
+      <% end %>
     </div>
-  </body>
+    <div class="container">
+      <%= yield %>
+    </div>
+  </div>
+</body>
 </html>

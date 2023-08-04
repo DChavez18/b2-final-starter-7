@@ -74,7 +74,7 @@ RSpec.describe "bulk discounts index", type: :feature do
       expect(page).to have_button("Create Bulk Discount")
     end
 
-    it "redirects me back to bulk discount index when i click the create new discount button after I fill in the form" do
+    it "redirects me back to bulk discount index when i click the create new discount button after I fill in the form and I see the new discount" do
       visit new_merchant_bulk_discount_path(@merchant1)
 
       fill_in "Name", with: "Summer Sale"
@@ -85,7 +85,6 @@ RSpec.describe "bulk discounts index", type: :feature do
 
       expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
       expect(page).to have_content("Summer Sale - 20% off 10 items")
-
     end
   end
 end
