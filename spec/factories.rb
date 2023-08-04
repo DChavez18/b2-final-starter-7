@@ -44,8 +44,6 @@ FactoryBot.define do
     percentage_discount {rand(5..30)}
     quantity_threshold {rand(5..20)}
     merchant
-
-    invoice { merchant.invoices.sample }
   end
 
   factory :bulk_discount_item do

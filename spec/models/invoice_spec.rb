@@ -10,7 +10,8 @@ RSpec.describe Invoice, type: :model do
     it { should have_many(:items).through(:invoice_items) }
     it { should have_many(:merchants).through(:items) }
     it { should have_many :transactions}
-    it { should have_many :bulk_discounts}
+    it { should have_many(:bulk_discount_items)}
+    it { should have_many(:bulk_discounts).through(:bulk_discount_items)}
   end
   describe "instance methods" do
     it "total_revenue" do
