@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "bulk discounts index", type: :feature do
+RSpec.describe "bulk discount show page", type: :feature do
   before :each do
     @merchant1 = Merchant.create!(name: "Hair Care")
 
@@ -45,81 +45,18 @@ RSpec.describe "bulk discounts index", type: :feature do
     @bulk_discount3 = FactoryBot.create(:bulk_discount, merchant: @merchant1)
   end
 
-# 2: Merchant Bulk Discount Create
+# 4: Merchant Bulk Discount Show
 # As a merchant
-# When I visit my bulk discounts index
-# Then I see a link to create a new discount
-# When I click this link
-# Then I am taken to a new page where I see a form to add a new bulk discount
-# When I fill in the form with valid data
-# Then I am redirected back to the bulk discount index
-# And I see my new bulk discount listed
+# When I visit my bulk discount show page
+# Then I see the bulk discount's quantity threshold and 
+# percentage discount
 
-  describe "when i visit my bulk discounts index" do
-    it "displays a link to create a new discount" do
-      visit merchant_bulk_discounts_path(@merchant1)
-      
-      expect(page).to have_link("Create New Discount")
-    end
-    
-    it "takes me to a new page when the link is clicked and I see a form to add a new bulk discount" do
-      visit merchant_bulk_discounts_path(@merchant1)
+  describe "when i visit my bulk discounts show page" do
+    it "displays that discount's quantity threshold and percentage discount" do
+      visit merchant_bulk_discount_path(@merchant1, @bulk_discount1)
 
-      click_link "Create New Discount"
-
-      expect(current_path).to eq(new_merchant_bulk_discount_path(@merchant1))
-      expect(page).to have_field("bulk_discount_name")
-      expect(page).to have_field("bulk_discount_percentage_discount")
-      expect(page).to have_field("bulk_discount_quantity_threshold")
-      expect(page).to have_button("Create Bulk Discount")
-    end
-
-    it "redirects me back to bulk discount index when i click the create new discount button after I fill in the form and I see the new discount" do
-      visit new_merchant_bulk_discount_path(@merchant1)
-
-      fill_in "Name", with: "Summer Sale"
-      fill_in "Percentage discount", with: 20
-      fill_in "Quantity threshold", with: 10
-
-      click_button "Create Bulk Discount"
-
-      expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
-      expect(page).to have_content("Summer Sale - 20% off 10 items")
-    end
-  end
-
-# 3: Merchant Bulk Discount Delete
-# As a merchant
-# When I visit my bulk discounts index
-# Then next to each bulk discount I see a link to delete it
-# When I click this link
-# Then I am redirected back to the bulk discounts index page
-# And I no longer see the discount listed
-
-  describe "when i visit my bulk discounts index" do
-    it "displays a link next to each discount to delete it" do
-      visit merchant_bulk_discounts_path(@merchant1)
-      
-      page.all(".bulk-discount").each do |bulk_discount_element|
-        within(bulk_discount_element) do
-          expect(page).to have_link("Delete")
-        end
-      end
-    end
-    
-    it "deletes the discount when the button is clicked and then redirects user back to that merchant's bulk_discount index page" do
-      visit merchant_bulk_discounts_path(@merchant1)
-
-      expect(page).to have_content(@bulk_discount1.name)
-      expect(page).to have_content(@bulk_discount2.name)
-      expect(page).to have_content(@bulk_discount3.name)
-
-      first('.bulk-discount').click_link("Delete")
-
-      expect(current_path).to eq(merchant_bulk_discounts_path(@merchant1))
-      expect(page).to_not have_content(@bulk_discount1.name)
-      expect(page).to have_content(@bulk_discount2.name)
-      expect(page).to have_content(@bulk_discount3.name)
+      expect(page).to have_content("Quantity Threshold: #{@bulk_discount1.quantity_threshold}")
+      expect(page).to have_content("Percentage Discount: #{@bulk_discount1.percentage_discount}")
     end
   end
 end
