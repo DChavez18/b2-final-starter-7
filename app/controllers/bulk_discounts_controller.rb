@@ -20,10 +20,10 @@ class BulkDiscountsController < ApplicationController
     @bulk_discount = @merchant.bulk_discounts.new(bulk_discount_params)
 
     if @bulk_discount.save
-      flash[:notice] = "Bulk discount successfully created!"
+      flash[:success] = "Bulk discount successfully created!"
       redirect_to merchant_bulk_discounts_path(@merchant)
     else
-      flash.now[:alert] = "Failed to create the bulk discount."
+      flash.now[:error] = "Failed to create the bulk discount."
       render :new
     end
   end
