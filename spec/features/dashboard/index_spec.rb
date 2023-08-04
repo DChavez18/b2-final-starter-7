@@ -40,6 +40,10 @@ RSpec.describe "merchant dashboard" do
     @transaction6 = Transaction.create!(credit_card_number: 879799, result: 1, invoice_id: @invoice_7.id)
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_2.id)
 
+    @bulk_discount1 = FactoryBot.create(:bulk_discount, merchant: @merchant1)
+    @bulk_discount2 = FactoryBot.create(:bulk_discount, merchant: @merchant1)
+    @bulk_discount3 = FactoryBot.create(:bulk_discount, merchant: @merchant1)
+
     visit merchant_dashboard_index_path(@merchant1)
   end
 
@@ -142,7 +146,21 @@ RSpec.describe "merchant dashboard" do
     end
 
     it "displays all my bulk discounts with their percentages and thresholds" do
+      click_link "Bulk Discounts"
 
+      within("#bulk-discounts-section") do
+        expect(page).to have_content(@bulk_discount1.name)
+        expect(page).to have_content(@bulk_discount1.percentage)
+        expect(page).to have_content(@bulk_discount1.quantity_threshold)
+
+        expect(page).to have_content(@bulk_discount2.name)
+        expect(page).to have_content(@bulk_discount2.percentage)
+        expect(page).to have_content(@bulk_discount2.quantity_threshold)
+
+        expect(page).to have_content(@bulk_discount3.name)
+        expect(page).to have_content(@bulk_discount3.percentage)
+        expect(page).to have_content(@bulk_discount3.quantity_threshold)
+      end
     end
   end
 end

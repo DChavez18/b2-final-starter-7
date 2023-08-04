@@ -6,14 +6,18 @@ FactoryBot.define do
 
   factory :invoice do
     status {[0,1,2].sample}
-    merchant
     customer
+    merchant
   end
 
   factory :merchant do
     name {Faker::Space.galaxy}
-    invoices
-    items
+    # invoices
+    # items
+    after(:create) do |merchant|
+      create_list(:item, 5, merchant: merchant)
+      create_list(:invoice, 5, merchant: merchant)
+    end
   end
 
   factory :item do
@@ -36,10 +40,12 @@ FactoryBot.define do
   end
 
   factory :bulk_discount do
-    name {Faker::Commerce.product_name}
-    percentage {rand(5..30)}
+    name {Faker::Lorem.word}
+    percentage_discount {rand(5..30)}
     quantity_threshold {rand(5..20)}
     merchant
+
+    invoice { merchant.invoices.sample }
   end
 
   factory :bulk_discount_item do
