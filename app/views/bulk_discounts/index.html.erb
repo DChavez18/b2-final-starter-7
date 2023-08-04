@@ -10,9 +10,10 @@
     <h2>Bulk Discounts</h2>
     <ul>
       <% @bulk_discounts.each do |bulk_discount| %>
-        <li>
+        <div class="bulk-discount">
           <%= link_to "#{bulk_discount.name} - #{bulk_discount.percentage_discount}% off #{bulk_discount.quantity_threshold} items", merchant_bulk_discount_path(@merchant, bulk_discount) %>
-        </li>
+          <%= link_to "Delete", merchant_bulk_discount_path(@merchant, bulk_discount), method: :delete %>
+        </div>
       <% end %>
     </ul>
   </div>
