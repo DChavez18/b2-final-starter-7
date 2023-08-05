@@ -81,18 +81,31 @@ RSpec.describe "bulk discount show page", type: :feature do
     
     it "takes me to new page with a form to edit the discount with its info prepopulated when the link is clicked" do
       visit merchant_bulk_discount_path(@merchant1, @bulk_discount1)
-
+      
       click_link "Edit"
-
+      
       expect(current_path).to eq(edit_merchant_bulk_discount_path(@merchant1, @bulk_discount1))
       expect(page).to have_selector("form")
       expect(page).to have_field("bulk_discount_name", with: @bulk_discount1.name)
       expect(page).to have_field("bulk_discount_percentage_discount", with: @bulk_discount1.percentage_discount)
       expect(page).to have_field("bulk_discount_quantity_threshold", with: @bulk_discount1.quantity_threshold)
     end
-
+    
     it "redirects me to the discounts show page when I fill in the form correctly and I click the update button" do
+      visit merchant_bulk_discount_path(@merchant1, @bulk_discount1)
+      
+      click_link "Edit"
 
+      fill_in "Name", with: "Sale"
+      fill_in "Percentage discount", with: 10
+      fill_in "Quantity threshold", with: 5
+
+      click_button "Update Bulk Discount"
+save_and_open_page
+      expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @bulk_discount1))
+      expect(page).to have_content("Sale")
+      expect(page).to have_content(10)
+      expect(page).to have_content(5)
     end
   end
 end

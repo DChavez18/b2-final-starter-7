@@ -41,6 +41,19 @@ class BulkDiscountsController < ApplicationController
     @bulk_discount = @merchant.bulk_discounts.find(params[:id])
   end
 
+  def update
+    @merchant = Merchant.find(params[:merchant_id])
+    @bulk_discount = @merchant.bulk_discounts.find(params[:id])
+
+    if @bulk_discount.update(bulk_discount_params)
+      flash[:success] = "Bulk discount successfully updated!"
+      redirect_to merchant_bulk_discount_path(@merchant, @bulk_discount)
+    else
+      flash.now[:error] = "Failed to update the bulk discount."
+      render :edit
+    end
+  end
+
   private
 
   def bulk_discount_params
