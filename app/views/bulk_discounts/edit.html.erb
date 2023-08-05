@@ -1,0 +1,16 @@
+<h2>Edit Bulk Discount</h2>
+
+<%= render 'shared/flash_messages' %>
+
+<%= form_with model: [@merchant, @bulk_discount] do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+
+  <%= form.label :percentage_discount %>
+  <%= form.number_field :percentage_discount %>
+
+  <%= form.label :quantity_threshold %>
+  <%= form.number_field :quantity_threshold %>
+
+  <%= form.submit "Update Bulk Discount" %>
+<% end %>
