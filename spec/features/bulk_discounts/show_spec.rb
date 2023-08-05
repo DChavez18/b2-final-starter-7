@@ -91,21 +91,35 @@ RSpec.describe "bulk discount show page", type: :feature do
       expect(page).to have_field("bulk_discount_quantity_threshold", with: @bulk_discount1.quantity_threshold)
     end
     
-    it "redirects me to the discounts show page when I fill in the form correctly and I click the update button" do
+    it "redirects me to the discounts show page when I fill in the form correctly and I click the update button, where I see updated info" do
       visit merchant_bulk_discount_path(@merchant1, @bulk_discount1)
       
       click_link "Edit"
-
+      
       fill_in "Name", with: "Sale"
       fill_in "Percentage discount", with: 10
       fill_in "Quantity threshold", with: 5
-
+      
       click_button "Update Bulk Discount"
-save_and_open_page
+      
       expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @bulk_discount1))
       expect(page).to have_content("Sale")
       expect(page).to have_content(10)
       expect(page).to have_content(5)
+    end
+    
+    it "shows a unsuccesful message when all areas aren't filled in correctly" do
+      visit merchant_bulk_discount_path(@merchant1, @bulk_discount1)
+      
+      click_link "Edit"
+      
+      fill_in "Name", with: ""
+      fill_in "Percentage discount", with: "0"
+      fill_in "Quantity threshold", with: ""
+
+      click_button "Update Bulk Discount"
+
+      expect(page).to have_content("Failed to update the bulk discount.")
     end
   end
 end
