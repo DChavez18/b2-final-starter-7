@@ -32,7 +32,7 @@ RSpec.describe "invoices show" do
 
     @invoice_8 = Invoice.create!(customer_id: @customer_6.id, status: 1)
 
-    @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2)
+    @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2, bulk_discount: @bulk_discount1)
     @ii_2 = InvoiceItem.create!(invoice_id: @invoice_2.id, item_id: @item_1.id, quantity: 1, unit_price: 10, status: 2)
     @ii_3 = InvoiceItem.create!(invoice_id: @invoice_3.id, item_id: @item_2.id, quantity: 2, unit_price: 8, status: 2)
     @ii_4 = InvoiceItem.create!(invoice_id: @invoice_4.id, item_id: @item_3.id, quantity: 3, unit_price: 5, status: 1)
@@ -51,6 +51,8 @@ RSpec.describe "invoices show" do
     @transaction6 = Transaction.create!(credit_card_number: 879799, result: 0, invoice_id: @invoice_6.id)
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
     @transaction8 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
+
+    @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Summer Sale", percentage_discount: 20, quantity_threshold: 10)
   end
 
   it "shows the invoice information" do
@@ -111,8 +113,14 @@ RSpec.describe "invoices show" do
   describe "when I visit my merchant inovice show page" do
     it "diplays the total revenue for my merchant from this invoice" do
       visit merchant_invoice_path(@merchant1, @invoice_1)
-      total_revenue = @invoice_1.total_revenue_for_merchant(@merchant1)
-      expect(page).to have_content("Total Revenue: $#{total_revenue}")
+      total_revenue = @invoice_1.total_revenue
+      expect(page).to have_content("Total Revenue: #{total_revenue}")
     end
+    
+    it "displays the total discounted revenue for my merchant" do
+      visit merchant_invoice_path(@merchant1, @invoice_1)
+
+    end
+  end
 
 end
