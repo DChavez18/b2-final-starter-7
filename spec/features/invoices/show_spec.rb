@@ -100,4 +100,19 @@ RSpec.describe "invoices show" do
     end
   end
 
+# 6: Merchant Invoice Show Page: Total Revenue and Discounted Revenue
+# As a merchant
+# When I visit my merchant invoice show page
+# Then I see the total revenue for my merchant from this invoice 
+# (not including discounts)
+# And I see the total discounted revenue for my merchant 
+# from this invoice which includes bulk discounts in the calculation
+
+  describe "when I visit my merchant inovice show page" do
+    it "diplays the total revenue for my merchant from this invoice" do
+      visit merchant_invoice_path(@merchant1, @invoice_1)
+      total_revenue = @invoice_1.total_revenue_for_merchant(@merchant1)
+      expect(page).to have_content("Total Revenue: $#{total_revenue}")
+    end
+
 end
