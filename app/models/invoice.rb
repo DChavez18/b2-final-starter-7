@@ -21,4 +21,10 @@ class Invoice < ApplicationRecord
       .where(invoices: { id: invoice_id })
       .sum('invoice_items.quantity * (invoice_items.unit_price * (1 - COALESCE(bulk_discounts.percentage_discount, 0) / 100.0))')
   end
+
+  def total_discounted_revenue
+    invoice_items.joins(item: :bulk_discount)
+                 .sum('invoice_items.quantity * (invoice_items.unit_price * (1 - COALESCE(bulk_discounts.percentage_discount, 0) / 100.0))')
+  end
+
 end

@@ -48,7 +48,7 @@ describe "Admin Invoices Index Page" do
     expect(page).to have_content(@ii_1.status)
     expect(page).to have_content(@ii_2.status)
 
-    # expect(page).to_not have_content(@ii_3.quantity)
+    expect(page).to_not have_content(@ii_3.quantity)
     expect(page).to_not have_content("$#{@ii_3.unit_price}")
     expect(page).to_not have_content(@ii_3.status)
   end
@@ -69,4 +69,22 @@ describe "Admin Invoices Index Page" do
       expect(@i1.status).to eq("completed")
     end
   end
+
+# 8: Admin Invoice Show Page: Total Revenue and Discounted Revenue
+# As an admin
+# When I visit an admin invoice show page
+# Then I see the total revenue from this invoice (not including discounts)
+# And I see the total discounted revenue from this invoice which 
+# includes bulk discounts in the calculation
+
+  describe "when I visit an admin invoice show page" do
+    it "shows the total revenue from the invoice(not including discounts)" do
+      expect(page).to have_content("Total Revenue: $30.00")
+    end
+    it "shows the total discounted revenue based on bulk discounts applied" do
+      total_discounted_revenue = @i1.total_discounted_revenue
+      expect(page).to have_content("Total Discounted Revenue: $#{total_discounted_revenue}")
+    end
+  end
+
 end
