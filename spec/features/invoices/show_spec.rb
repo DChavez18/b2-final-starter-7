@@ -129,4 +129,37 @@ RSpec.describe "invoices show" do
     end
   end
 
+  # 7: Merchant Invoice Show Page: Link to applied discounts
+  # As a merchant
+  # When I visit my merchant invoice show page
+  # Next to each invoice item I see a link to the show page 
+  # for the bulk discount that was applied (if any)
+
+    describe "when I visit my merchant invoice show page" do
+      it "has links next to each invoice item for a bulk discount if one was applied" do
+        @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Summer Sale", percentage_discount: 20, quantity_threshold: 10)
+
+        @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2, bulk_discount: @bulk_discount1)
+        @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1)
+
+        visit merchant_invoice_path(@merchant1, @invoice_1)
+
+        expect(page).to have_link("Discount Applied")
+      end
+
+      it "is a link to the bulk_discounts show page" do
+        @bulk_discount1 = @merchant1.bulk_discounts.create!(name: "Summer Sale", percentage_discount: 20, quantity_threshold: 10)
+
+        @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 9, unit_price: 10, status: 2, bulk_discount: @bulk_discount1)
+        @ii_11 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_8.id, quantity: 12, unit_price: 6, status: 1)
+
+        visit merchant_invoice_path(@merchant1, @invoice_1)
+
+        click_link "Discount Applied"
+        
+        expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @bulk_discount1))
+        expect(page).to have_content(@bulk_discount1.name)
+      end
+    end
+
 end
