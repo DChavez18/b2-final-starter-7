@@ -138,16 +138,16 @@ RSpec.describe "bulk discounts index", type: :feature do
     end
     
     it "displays in this section the name and date of the next 3 US holidays" do
-      holidays = HolidayService.get_holidays.first(3)
+      holidays = HolidayService.get_holidays
       
       visit merchant_bulk_discounts_path(@merchant1)
-      save_and_open_page
-      within(".upcoming-holidays") do
-        holidays.each do |holiday|
-          expect(page).to have_content("#{holiday[:name]} - #{holiday[:date]}")
-        end
-      end
 
+      within(".upcoming-holidays") do
+          expect(page).to have_content("Labour Day - 2023-09-04")
+          expect(page).to have_content("Columbus Day - 2023-10-09")
+          expect(page).to have_content("Veterans Day - 2023-11-10")
+          expect(page).to_not have_content("Thanksgiving Day - 2023-11-23")
+      end
     end
   end
 
