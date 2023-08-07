@@ -141,7 +141,7 @@ RSpec.describe "bulk discounts index", type: :feature do
       holidays = HolidayService.get_holidays.first(3)
       
       visit merchant_bulk_discounts_path(@merchant1)
-
+      save_and_open_page
       within(".upcoming-holidays") do
         holidays.each do |holiday|
           expect(page).to have_content("#{holiday[:name]} - #{holiday[:date]}")

@@ -23,6 +23,11 @@
   <div class="col-12">
     <div class="upcoming-holidays">
       <h2>Upcoming Holidays</h2>
+      <ul>
+        <% @holidays.each do |holiday| %>
+          <li><%= "#{holiday[:name]} - #{holiday[:date]}" %></li>
+        <% end %>
+      </ul>
     </div>
   </div>
 </div>
