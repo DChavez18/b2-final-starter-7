@@ -14,10 +14,10 @@ FactoryBot.define do
     name {Faker::Space.galaxy}
     # invoices
     # items
-    after(:create) do |merchant|
-      create_list(:item, 5, merchant: merchant)
-      create_list(:invoice, 5, merchant: merchant)
-    end
+    # after(:create) do |merchant|
+    #   create_list(:item, 5, merchant: merchant)
+    #   create_list(:invoice, 5, merchant: merchant)
+    # end
   end
 
   factory :item do

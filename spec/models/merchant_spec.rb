@@ -170,4 +170,16 @@ describe Merchant do
       expect(@merchant2.disabled_items).to eq([@item_5, @item_6])
     end
   end
+
+  # describe "associations" do
+  #   it "has 5 associated items" do
+  #     merchant = create(:merchant)
+  #     expect(merchant.items.count).to eq(5)
+  #   end
+
+  #   it "has 5 associated invoices" do
+  #     merchant = create(:merchant)
+  #     expect(merchant.invoices.count).to eq(5)
+  #   end
+  # end
 end

@@ -25,6 +25,19 @@ RSpec.describe Invoice, type: :model do
 
       expect(@invoice_1.total_revenue).to eq(100)
     end
+
+    it "#total_disocunted_revenue" do
+      merchant = Merchant.create!(name: 'Hair Care')
+      bulk_discount = BulkDiscount.create!(name: "Summer Sale", percentage_discount: 10, quantity_threshold: 5, merchant_id: merchant.id)
+      item_1 = Item.create!(name: "Shampoo", description: "This washes your hair", unit_price: 10, merchant_id: merchant.id, bulk_discount: bulk_discount)
+      customer_1 = Customer.create!(first_name: 'Joey', last_name: 'Smith')
+      invoice_1 = Invoice.create!(customer_id: customer_1.id, status: "in_progress", created_at: "2012-03-27 14:54:09")
+      invoice_item_1 = InvoiceItem.create!(invoice_id: invoice_1.id, item_id: item_1.id, quantity: 10, unit_price: 10, status: 2)
+
+      discounted_revenue = invoice_1.total_discounted_revenue
+
+      expect(discounted_revenue).to eq(90)
+    end
   end
 
   describe "class methods" do
