@@ -133,7 +133,21 @@ RSpec.describe "bulk discounts index", type: :feature do
   describe "when I visit the merchants discounts index page" do
     it "dislays a section with a header of Upcoming Holidays" do
       visit merchant_bulk_discounts_path(@merchant1)
+      
       expect(page).to have_content("Upcoming Holidays")
+    end
+    
+    it "displays in this section the name and date of the next 3 US holidays" do
+      holidays = HolidayService.get_holidays.first(3)
+      
+      visit merchant_bulk_discounts_path(@merchant1)
+
+      within(".upcoming-holidays") do
+        holidays.each do |holiday|
+          expect(page).to have_content("#{holiday[:name]} - #{holiday[:date]}")
+        end
+      end
+
     end
   end
 
