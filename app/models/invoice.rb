@@ -25,7 +25,4 @@ class Invoice < ApplicationRecord
                             invoice_items.quantity * invoice_items.unit_price 
                       END')
   end
-
-  # We're starting by fetching the invoice items and joining them with associated items and their bulk discounts.
-  # ...we calculate the total revenue by multiplying the item's quantity with the adjusted unit price (after discount).
 end
