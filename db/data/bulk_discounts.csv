@@ -1,0 +1,4 @@
+id,name,percentage_discount,quantity_threshold,merchant_name
+1,Summer Sale,20,10,Schroeder-Jerde
+2,Back to School,15,5,Schroeder-Jerde
+3,Winter Sale,10,8,Schroeder-Jerde

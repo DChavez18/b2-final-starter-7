@@ -84,8 +84,26 @@ namespace :csv_load do
       puts "InvoiceItems imported."
    end
 
+   task :bulk_discounts => :environment do
+      CSV.foreach("db/data/bulk_discounts.csv", headers: true) do |row|
+        merchant_name = row.to_hash["merchant_name"]
+        merchant = Merchant.find_by(name: merchant_name)
+        if merchant
+          BulkDiscount.create!({
+            name: row.to_hash["name"],
+            percentage_discount: row.to_hash["percentage_discount"],
+            quantity_threshold: row.to_hash["quantity_threshold"],
+            merchant: merchant
+          })
+        else
+          puts "Merchant '#{merchant_name}' not found. Skipping bulk discount creation."
+        end
+      end
+      puts "Bulk Discounts imported."
+    end
+
    task :all do 
-      [:customers, :invoices, :merchants, :items, :invoice_items, :transactions].each do |task|
+      [:customers, :invoices, :merchants, :items, :invoice_items, :transactions, :bulk_discounts].each do |task|
          Rake::Task["csv_load:#{task}".to_sym].invoke
       end
    end
