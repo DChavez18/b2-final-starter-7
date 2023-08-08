@@ -102,8 +102,27 @@ namespace :csv_load do
       puts "Bulk Discounts imported."
     end
 
+    task :associate_bulk_discounts => :environment do
+      CSV.foreach("db/data/invoice_bulk_discounts.csv", headers: true) do |row|
+        invoice_id = row.to_hash["invoice_id"]
+        bulk_discount_id = row.to_hash["bulk_discount_id"]
+        invoice_item_id = row.to_hash["invoice_item_id"]
+    
+        invoice_item = InvoiceItem.find_by(id: invoice_item_id)
+        bulk_discount = BulkDiscount.find_by(id: bulk_discount_id)
+    
+        if invoice_item && bulk_discount
+          invoice_item.update(bulk_discount: bulk_discount)
+          puts "Associated bulk discount #{bulk_discount_id} with invoice item #{invoice_item_id}."
+        else
+          puts "Failed to associate bulk discount with invoice item: #{row.inspect}"
+        end
+      end
+      puts "Bulk Discounts associated with invoice items."
+    end
+
    task :all do 
-      [:customers, :invoices, :merchants, :items, :invoice_items, :transactions, :bulk_discounts].each do |task|
+      [:customers, :invoices, :merchants, :items, :invoice_items, :transactions, :bulk_discounts, :associate_bulk_discounts].each do |task|
          Rake::Task["csv_load:#{task}".to_sym].invoke
       end
    end
