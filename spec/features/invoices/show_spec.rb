@@ -124,7 +124,7 @@ RSpec.describe "invoices show" do
       @item_with_discount = Item.create!(name: "Item with Discount", description: "Has bulk discount", unit_price: 10, merchant_id: @merchant1.id)
       @invoice_item_with_discount = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_with_discount.id, quantity: 7, unit_price: 10, status: 2, bulk_discount: bulk_discount)
   
-      discounted_revenue = Invoice.total_discounted_revenue(@invoice_1.id)
+      discounted_revenue = @invoice_1.total_discounted_revenue
       expect(page).to have_content("Total Discounted Revenue: #{discounted_revenue}")
     end
   end
