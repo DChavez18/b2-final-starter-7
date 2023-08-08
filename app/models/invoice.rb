@@ -18,6 +18,16 @@ class Invoice < ApplicationRecord
 
   def total_discounted_revenue
     invoice_items.joins(item: :bulk_discount)
-                 .sum('CASE WHEN bulk_discounts.quantity_threshold <= invoice_items.quantity THEN invoice_items.quantity * (invoice_items.unit_price * (1 - COALESCE(bulk_discounts.percentage_discount, 0) / 100.0)) ELSE invoice_items.quantity * invoice_items.unit_price END')
+                 .sum('CASE 
+                          WHEN bulk_discounts.quantity_threshold <= invoice_items.quantity
+                            THEN invoice_items.quantity * (invoice_items.unit_price * (1 - bulk_discounts.percentage_discount / 100.0))
+                          WHEN bulk_discounts.quantity_threshold > invoice_items.quantity
+                            THEN invoice_items.quantity * invoice_items.unit_price * (1 - bulk_discounts.percentage_discount / 100.0)
+                          ELSE 
+                            invoice_items.quantity * invoice_items.unit_price 
+                        END')
   end
+
+  # We're starting by fetching the invoice items and joining them with associated items and their bulk discounts.
+  # ...we calculate the total revenue by multiplying the item's quantity with the adjusted unit price (after discount).
 end
